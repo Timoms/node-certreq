@@ -15,7 +15,7 @@ const os = require("os"); // Comes with node.js
 const operatingsystem = os.type();
 
 const isFunction = (callback) => callback instanceof Function;
-const checkIsParamsString = (params) => typeof params === "string";
+const checkIsParamsObject = (params) => typeof params === "object";
 
 let debug = false;
 
@@ -33,9 +33,9 @@ module.exports.run = function certreq(parameter, callback) {
     );
   }
 
-  if (!checkIsParamsString(parameter)) {
-    log(`Parameters must be string, but got ${typeof parameter}`);
-    throw new Error(`Parameters must be string, but got ${typeof parameter}`);
+  if (!checkIsParamsObject(parameter)) {
+    log(`Parameters must be object, but got ${typeof parameter}`);
+    throw new Error(`Parameters must be object, but got ${typeof parameter}`);
   }
 
   const stdout = [];
@@ -48,9 +48,8 @@ module.exports.run = function certreq(parameter, callback) {
     shell: true,
     windowsHide: false,
   };
-  parameters = parameter.split(" ");
-  if (parameters[0] === "certreq") parameters.shift();
-  const certreqProcess = spawn("certreq", parameters, defaults);
+  if (parameter[0] === "certreq") parameter.shift();
+  const certreqProcess = spawn("certreq", parameter, defaults);
 
   certreqProcess.stdout.on("data", (data) => {
     stdout.push(data);

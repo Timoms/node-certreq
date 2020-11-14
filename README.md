@@ -17,7 +17,7 @@ const certreq = require("node-certreq");
 ```
 
 ```javascript
-certreq.run("command to execute", function (data) {
+certreq.run(["-submit", "-attrib", "CertificateTemplate XXX"], function (data) {
   // the data object will contain every process output
   console.log(data);
 });
